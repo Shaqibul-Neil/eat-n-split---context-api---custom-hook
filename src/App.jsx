@@ -4,6 +4,7 @@ import AllFriendsContext from "./components/AllFriendsContext";
 import Button from "./components/Button";
 import FormAddFriend from "./components/FormAddFriend";
 import Friends from "./components/Friends";
+import FormSplitBill from "./components/FormSplitBill";
 
 const initialFriends = [
   {
@@ -29,21 +30,33 @@ const initialFriends = [
 function App() {
   const [allFriends, setAllFriends] = useState(initialFriends);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showSplitForm, setShowSplitForm] = useState(false);
+
   const handleAddFriend = (newFriend) => {
     setAllFriends((prev) => [...prev, newFriend]);
+    setShowAddForm(false);
   };
   const handleClickShowAddForm = () => {
     setShowAddForm(!showAddForm);
+    setShowSplitForm(false);
+  };
+
+  const handleClickShowSplitForm = () => {
+    setShowSplitForm(!showSplitForm);
+    setShowAddForm(false);
   };
 
   return (
     <div className="app">
-      <AllFriendsContext.Provider value={{ allFriends, handleAddFriend }}>
+      <AllFriendsContext.Provider
+        value={{ allFriends, handleAddFriend, handleClickShowSplitForm }}
+      >
         <div className="sidebar">
           <Friends />
           {showAddForm && <FormAddFriend />}
           <Button onClick={handleClickShowAddForm}>Add Friend</Button>
         </div>
+        {showSplitForm && <FormSplitBill />}
       </AllFriendsContext.Provider>
     </div>
   );

@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import Button from "./Button";
+import AllFriendsContext from "./AllFriendsContext";
 
 const Friend = ({ friend }) => {
+  const { handleClickShowSplitForm } = useContext(AllFriendsContext);
   const conditionalText = () => {
     if (friend.balance < 0)
       return `You owe ${friend.name} ${Math.abs(friend.balance)}$`;
@@ -19,7 +22,7 @@ const Friend = ({ friend }) => {
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
       <p className={conditionalClass()}>{conditionalText()}</p>
-      <Button>Select</Button>
+      <Button onClick={handleClickShowSplitForm}>Select</Button>
     </li>
   );
 };
