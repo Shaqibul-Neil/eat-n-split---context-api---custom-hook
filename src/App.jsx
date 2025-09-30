@@ -63,6 +63,21 @@ function App() {
     setShowAddForm(false);
   };
 
+  const handleSplitBill = (value) => {
+    console.log(value);
+    setAllFriends((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
+    //selectedFriend = { ...selectedFriend, balance: selectedFriend.balance + value }; Eta local variable ba context e update hobe. But React state e allFriends array jekhane oi friend ache, seta unchanged thakbe. React reference check kore decide kore re-render hobe naki na. Directly selectedFriend update korle, allFriends er array er reference same thakbe, tai React UI re-render detect korte parbe na. SelectedFriend ke locally update kora UI te show korbe na, jodi allFriends state update na koro. Tai loop/map chalano dorkar, na hole sidebar friends list er balance update hobe na. SelectedFriend dhore spread use kore sudhu oi object update korle React UI automatically update korbe na, karon React check kore array reference change hocche naki. Loop/map chalale notun array pawa jaye → React re-render kore.
+
+    //hiding the split bill form
+    setSelectedFriend(null);
+  };
+
   return (
     <div className="app">
       <AllFriendsContext.Provider
@@ -77,6 +92,7 @@ function App() {
           setMyExpense,
           whoIsPaying,
           setWhoIsPaying,
+          handleSplitBill,
         }}
       >
         <div className="sidebar">

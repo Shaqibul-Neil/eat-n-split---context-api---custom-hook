@@ -12,6 +12,7 @@ const FormSplitBill = () => {
     setMyExpense,
     whoIsPaying,
     setWhoIsPaying,
+    handleSplitBill,
   } = useContext(AllFriendsContext);
   // const [bill, setBill, resetBill] = useInputField("", "number");
   // const [myExpense, setMyExpense, resetMyExpense] = useInputField("", "number");
@@ -25,15 +26,17 @@ const FormSplitBill = () => {
   const handleSplitBillSubmit = (e) => {
     e.preventDefault();
     //validation
-    if (!bill || !myExpense || bill < 0) return;
+    if (bill === "" || myExpense === "" || bill < 0 || myExpense < 0) return;
+
+    handleSplitBill(whoIsPaying === "user" ? friendsExpense : -myExpense);
   };
 
   return (
     <form className="form-split-bill" onSubmit={handleSplitBillSubmit}>
       <h2>Split a bill with {selectedFriend.name}</h2>
-      <label>💰 Bill value</label>
+      <label>💰 Total Bill value</label>
       <input type="number" value={bill} onChange={setBill} />
-      <label>🧍‍♀️Your expense</label>
+      <label>🧍‍♀️Your Platter Price</label>
       <input
         type="number"
         value={myExpense}
@@ -43,7 +46,7 @@ const FormSplitBill = () => {
           setMyExpense(val);
         }}
       />
-      <label>🧍‍♀️{selectedFriend.name}'s Expense</label>
+      <label>🧍‍♀️{selectedFriend.name}'s Platter Price</label>
       <input type="number" disabled value={friendsExpense} />
       <label>🤑 Who is paying the bill</label>
       <select value={whoIsPaying} onChange={setWhoIsPaying}>
