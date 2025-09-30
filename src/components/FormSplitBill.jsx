@@ -1,24 +1,31 @@
-import { useState, useContext } from "react";
-import useInputField from "./useInputField";
+import { useContext } from "react";
+// import useInputField from "./useInputField";
 import Button from "./Button";
 import AllFriendsContext from "./AllFriendsContext";
 
 const FormSplitBill = () => {
-  const { selectedFriend } = useContext(AllFriendsContext);
-  const [bill, setBill, resetBill] = useInputField("", "number");
-  const [myExpense, setMyExpense, resetMyExpense] = useInputField("", "number");
-  const [whoIsPaying, setWhoIsPaying, resetWhoIsPaying] = useInputField(
-    "user",
-    "text"
-  );
+  const {
+    selectedFriend,
+    bill,
+    setBill,
+    myExpense,
+    setMyExpense,
+    whoIsPaying,
+    setWhoIsPaying,
+  } = useContext(AllFriendsContext);
+  // const [bill, setBill, resetBill] = useInputField("", "number");
+  // const [myExpense, setMyExpense, resetMyExpense] = useInputField("", "number");
+  // const [whoIsPaying, setWhoIsPaying, resetWhoIsPaying] = useInputField(
+  //   "user",
+  //   "text"
+  // );
 
-  const friendsExpense = bill - myExpense;
+  const friendsExpense = bill ? bill - myExpense : "";
 
   const handleSplitBillSubmit = (e) => {
     e.preventDefault();
     //validation
     if (!bill || !myExpense || bill < 0) return;
-    console.log(bill, myExpense);
   };
 
   return (
@@ -39,7 +46,7 @@ const FormSplitBill = () => {
       <label>🧍‍♀️{selectedFriend.name}'s Expense</label>
       <input type="number" disabled value={friendsExpense} />
       <label>🤑 Who is paying the bill</label>
-      <select>
+      <select value={whoIsPaying} onChange={setWhoIsPaying}>
         <option value="user">You</option>
         <option value="friend">{selectedFriend.name}</option>
       </select>

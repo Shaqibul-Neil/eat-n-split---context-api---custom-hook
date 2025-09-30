@@ -5,6 +5,7 @@ import Button from "./components/Button";
 import FormAddFriend from "./components/FormAddFriend";
 import Friends from "./components/Friends";
 import FormSplitBill from "./components/FormSplitBill";
+import useInputField from "./components/useInputField";
 
 const initialFriends = [
   {
@@ -32,19 +33,33 @@ function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
 
+  const [bill, setBill, resetBill] = useInputField("", "number");
+  const [myExpense, setMyExpense, resetMyExpense] = useInputField("", "number");
+  const [whoIsPaying, setWhoIsPaying, resetWhoIsPaying] = useInputField(
+    "user",
+    "text"
+  );
+
   const handleAddFriend = (newFriend) => {
     setAllFriends((prev) => [...prev, newFriend]);
     setShowAddForm(false);
   };
   const handleClickShowAddForm = () => {
     setShowAddForm(!showAddForm);
-    setSelectedFriend(false);
+
+    //hiding the split bill form
+    setSelectedFriend(null);
   };
 
   const handleClickSelectedFriend = (newFriend) => {
     setSelectedFriend((currFriend) =>
       currFriend?.id === newFriend.id ? null : newFriend
     );
+    //reset the split bill form
+    resetBill();
+    resetMyExpense();
+    resetWhoIsPaying();
+    //hiding the add friend form
     setShowAddForm(false);
   };
 
@@ -56,6 +71,12 @@ function App() {
           handleAddFriend,
           handleClickSelectedFriend,
           selectedFriend,
+          bill,
+          setBill,
+          myExpense,
+          setMyExpense,
+          whoIsPaying,
+          setWhoIsPaying,
         }}
       >
         <div className="sidebar">
