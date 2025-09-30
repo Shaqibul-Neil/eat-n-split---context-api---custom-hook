@@ -3,7 +3,11 @@ import Button from "./Button";
 import AllFriendsContext from "./AllFriendsContext";
 
 const Friend = ({ friend }) => {
-  const { handleClickShowSplitForm } = useContext(AllFriendsContext);
+  const { handleClickSelectedFriend, selectedFriend } =
+    useContext(AllFriendsContext);
+
+  const isSelected = selectedFriend?.id === friend.id;
+
   const conditionalText = () => {
     if (friend.balance < 0)
       return `You owe ${friend.name} ${Math.abs(friend.balance)}$`;
@@ -18,11 +22,13 @@ const Friend = ({ friend }) => {
   };
 
   return (
-    <li>
+    <li className={isSelected ? "selected" : ""}>
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
       <p className={conditionalClass()}>{conditionalText()}</p>
-      <Button onClick={handleClickShowSplitForm}>Select</Button>
+      <Button onClick={() => handleClickSelectedFriend(friend)}>
+        {isSelected ? "Close" : "Select"}
+      </Button>
     </li>
   );
 };

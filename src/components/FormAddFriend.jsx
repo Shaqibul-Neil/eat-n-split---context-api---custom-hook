@@ -4,9 +4,10 @@ import useInputField from "./useInputField";
 import AllFriendsContext from "./AllFriendsContext";
 
 const FormAddFriend = () => {
-  const [name, setName, resetName] = useInputField("");
+  const [name, setName, resetName] = useInputField("", "text");
   const [image, setImage, resetImage] = useInputField(
-    "https://i.pravatar.cc/48"
+    "https://i.pravatar.cc/48",
+    "text"
   );
   const { handleAddFriend } = useContext(AllFriendsContext);
 

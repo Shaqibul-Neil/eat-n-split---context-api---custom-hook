@@ -30,7 +30,7 @@ const initialFriends = [
 function App() {
   const [allFriends, setAllFriends] = useState(initialFriends);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [showSplitForm, setShowSplitForm] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
 
   const handleAddFriend = (newFriend) => {
     setAllFriends((prev) => [...prev, newFriend]);
@@ -38,25 +38,34 @@ function App() {
   };
   const handleClickShowAddForm = () => {
     setShowAddForm(!showAddForm);
-    setShowSplitForm(false);
+    setSelectedFriend(false);
   };
 
-  const handleClickShowSplitForm = () => {
-    setShowSplitForm(!showSplitForm);
+  const handleClickSelectedFriend = (newFriend) => {
+    setSelectedFriend((currFriend) =>
+      currFriend?.id === newFriend.id ? null : newFriend
+    );
     setShowAddForm(false);
   };
 
   return (
     <div className="app">
       <AllFriendsContext.Provider
-        value={{ allFriends, handleAddFriend, handleClickShowSplitForm }}
+        value={{
+          allFriends,
+          handleAddFriend,
+          handleClickSelectedFriend,
+          selectedFriend,
+        }}
       >
         <div className="sidebar">
           <Friends />
           {showAddForm && <FormAddFriend />}
-          <Button onClick={handleClickShowAddForm}>Add Friend</Button>
+          <Button onClick={handleClickShowAddForm}>
+            {showAddForm ? "Close" : "Add Friend"}
+          </Button>
         </div>
-        {showSplitForm && <FormSplitBill />}
+        {selectedFriend && <FormSplitBill />}
       </AllFriendsContext.Provider>
     </div>
   );
